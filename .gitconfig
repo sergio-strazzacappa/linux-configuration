@@ -1,0 +1,18 @@
+[user]
+	name = Sergio Strazzacappa
+	email = strazzacappasergio@gmail.com
+[core]
+	editor = vim
+[credential]
+	credentialStore = gpg
+	helper = 
+	helper = /usr/local/bin/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[alias]
+	clog = log --oneline --decorate --graph --all
+	last = log -1 HEAD
