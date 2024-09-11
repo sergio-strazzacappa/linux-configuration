@@ -124,3 +124,15 @@ POWERLINE_BASH_SELECT=1
 ######## BAT ########
 #####################
 export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#####################
+###### STARTUP ######
+#####################
+#fastfetch
+
+# Set vi mode
+set -o vi
