@@ -1,20 +1,27 @@
 alias rm='rm -v --interactive=always'
+alias rmdir='rmdir -v'
 alias mkdir='mkdir -v'
 alias chmod='chmod -v'
 alias cp='cp -v'
-alias cat='batcat'
+alias bcat='batcat'
 alias free='free -h'
+alias lsblk_use='lsblk -o NAME,FSUSED,FSAVAIL,FSSIZE,SIZE,FSUSE%,MOUNTPOINT'
 
 ###################################################################
 ############################## lsd alias ##########################
 ###################################################################
-alias ls='lsd'
-alias la='ls -a'
-alias ll='ls -l'
-alias lla='ls -al'
-alias lt='ls --tree'
+alias ls='lsd -h --group-directories-first'
+alias la='lsd -a'
+alias ll='lsd -l'
+alias lla='lsd -al'
+alias lt='lsd --tree'
 
 ###################################################################
 ############################## GIT ################################
 ###################################################################
 alias config='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
+
+###################################################################
+############################ PYTHON ###############################
+###################################################################
+alias python='python3'

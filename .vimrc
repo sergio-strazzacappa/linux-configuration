@@ -1,9 +1,7 @@
-" --------------------------------------------------------------------------- "
 " Index: {{{
-" ---------------------------------------------------------------------------- "
 " 	1. General settings
 "	2. Plugins
-"	3. Plugins config
+"	3. Abbreviations
 "	4. Mappings
 "	5. Vimscript
 "	}}}
@@ -12,14 +10,15 @@
 " 1. General settings {{{
 " ---------------------------------------------------------------------------- "
 
-" Disable vi compatibility
+" Disable compatibility with vi which can cause unexpected issues
 set nocompatible
 
-" Lines of memory to remember
-set history=1000
+" Enable type file detection. Vim will be able to try to detect the type file
+" in use. Required for Vundle to be off
+filetype off
 
-" Open help in a vertical window
-cnoreabbrev help vert help
+" Enable plugins and load plugin for the detected file type
+filetype plugin on
 
 " Load and indent file for the detected file type
 filetype indent on
@@ -51,19 +50,24 @@ set expandtab
 " Set the line width to 80 characters
 set textwidth=80
 
-" Do not wrap lines, Allow long lines to extend as far as the line goes
+" Wrap lines
 set wrap
+
+" Enable incremental search
+set incsearch
 
 " While searching through a file incrementally highlight matching characters as
 " you type
 set hlsearch
-set incsearch
 
 " Show partial command you type in the last line of the screen
 set showcmd
 
 " Show the mode you are on the last line
 set showmode
+
+" Lines of memory to remember
+set history=50
 
 " Enable auto completion menu after pressing tab
 set wildmenu
@@ -73,12 +77,28 @@ set wildmode=list:longest
 
 " There are certain files that we would never want to edit with vim
 " Wildmenu will ignore files with these extensions
-set wildignore="*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xslx
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xslx
 
-" Terminal behavior - :term
-set termwinsize=12x0  " Set terminal size
-set splitbelow        " Always split below
-set mouse=a           " Enable mouse drag on window splits
+" Set terminal size
+set termwinsize=12x0
+
+" Always split below
+set splitbelow
+
+" Enable mouse drag on window splits
+set mouse=a
+
+" Move between buffers without save
+set hidden
+
+" Autocomplete menu
+set completeopt=menuone,noinsert,noselect
+
+" Show file title in the tab
+set title
+
+" Number of lines below and above the cursor
+set scrolloff=10
 
 " }}}
 
@@ -86,75 +106,84 @@ set mouse=a           " Enable mouse drag on window splits
 " 2. Plugins {{{
 " ---------------------------------------------------------------------------- "
 
-" Enable type file detection. Vim will be able to try to detect the type file
-" in use. Required for Vundle
-filetype off
+" ---------------------------------------------------------------------------- "
+" --------------------------------- VUNDLE ----------------------------------- "
+" ---------------------------------------------------------------------------- "
 
+" Set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
-" List of plugins installed
-call vundle#begin()
+" Download plugins to the ~/.vim/plugged/ directory
+call vundle#begin('~/.vim/plugged')
 
-	" PLUGIN MANAGER
-	Plugin 'VundleVim/Vundle.vim'
-
-	" GENERAL
-    Plugin 'sheerun/vim-polyglot'
-	Plugin 'jiangmiao/auto-pairs'
-	Plugin 'preservim/nerdtree'
-	Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-	Plugin 'ryanoasis/vim-devicons'
-	Plugin 'majutsushi/tagbar'
-    Plugin 'powerline/powerline'
-	Plugin 'valloric/youcompleteme'
-	"Plugin 'tpope/vim-surround'
-	Plugin 'tpope/vim-fugitive'
-
-	" THEMES
-	Plugin 'flazz/vim-colorschemes'
-
-	"*****************************************"
-	"*************** LANGUAGES ***************"
-	"*****************************************"
-
-	" MARKDOWN
-	Plugin 'godlygeek/tabular' " TODO
-"	Plugin 'plasticboy/vim-markdown' " TODO
-"	Plugin 'jamshedvesuna/vim-markdown-preview' " TODO
-
-call vundle#end()
-
-filetype plugin indent on
-autocmd Filetype c,cpp :set cindent
-" }}}
+" Let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'
 
 " ---------------------------------------------------------------------------- "
-" 3. Plugins config {{{
+" --------------------------------- THEMES ----------------------------------- "
 " ---------------------------------------------------------------------------- "
 
-" Autopairs
+Plugin 'flazz/vim-colorschemes'
+
+set background=dark
+
+colorscheme gruvbox
+"colorscheme archery
+"colorscheme iceberg
+"colorscheme nord
+"colorscheme scheakur
+"colorscheme molokai
+"colorscheme jellybeans
+"colorscheme minimalist
+"colorscheme codedark
+
+" ---------------------------------------------------------------------------- "
+" ------------------------------ STATUS LINE --------------------------------- "
+" ---------------------------------------------------------------------------- "
+
+Plugin 'powerline/powerline'
+
+set rtp+=~/.vim/plugged/powerline/powerline/bindings/vim
+
+set laststatus=2
+set showtabline=2
+set noshowmode
+
+" ---------------------------------------------------------------------------- "
+" ------------------------------- POLYGLOT ----------------------------------- "
+" ---------------------------------------------------------------------------- "
+
+Plugin 'sheerun/vim-polyglot'
+
+" ---------------------------------------------------------------------------- "
+" ------------------------------- AUTOPAIRS ---------------------------------- "
+" ---------------------------------------------------------------------------- "
+
+Plugin 'jiangmiao/auto-pairs'
+
 let g:AutoPairsFlyMode            = 1
-let g:AutoPairsShortcutBackInsert = '<M-b>'
+let g:AutoPairsShortcutBackInsert = '<C-b>'
 let g:AutoPairsShortcutToggle     = '<C-P>'
-let g:AutoPairsShortcutFastWrap   = '<M-e>'
+let g:AutoPairsShortcutFastWrap   = '<C-e>'
 
-" NERDTree
-set encoding=utf8
-set guifont="Monospace Regular 12"
+" ---------------------------------------------------------------------------- "
+" ------------------------------- NERDTREE ----------------------------------- "
+" ---------------------------------------------------------------------------- "
 
-let g:webdevicons_conceal_nerdtree_brackets = 1
-let NERDTreeShowBookmarks                   = 1
-let NERDTreeShowHidden                      = 0
-let NERDTreeShowLineNumbers                 = 0
-let NERDTreeWinPos                          = "left"
-let NERDTreeWinSize                         = 30
-let NERDTreeMinimalUI                       = 0
-let NERDTreeMinimalMenu                     = 0
+Plugin 'preservim/nerdtree'
 
-" NERDTree-syntax-highlight
-let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
-let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile  = 1
+" Bookmark file location. Need the expand function to expand '~'
+let NERDTreeBookmarksFile   = expand('~/.vim/NERDTreeBookmarks')
+let NERDTreeShowBookmarks   = 1
+let NERDTreeShowHidden      = 0
+let NERDTreeShowLineNumbers = 0
+let NERDTreeWinPos          = 'left'
+let NERDTreeWinSize         = 30
+let NERDTreeMinimalUI       = 0
+let NERDTreeMinimalMenu     = 0
+
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 let g:NERDTreeDisableFileExtensionHighlight                     = 1
 let g:NERDTreeDisableExactMatchHighlight                        = 1
 let g:NERDTreeDisablePatternMatchHighlight                      = 1
@@ -181,47 +210,134 @@ let s:rspec_red   = "FE405F"
 let s:git_orange  = "F54D27"
 
 let g:NERDTreeExtensionHighlightColor = {}
-let g:NERDTreeExtensionHighlightColor['c'] = s:blue
+let g:NERDTreeExtensionHighlightColor['c'] = 's:blue'
+let g:NERDTreeExactMatchHighlightColor = {}
+let g:NERDTreeExactMatchHighlightColor['.gitignore'] = 's:git_orange'
 
-" tagbar
-let g:tagbar_position             = 'botright vertical'
-let g:tagbar_autoclose            = 0
-let g:tagbar_autofocus            = 1
-let g:tagbar_sort                 = 0
-let g:tagbar_compact              = 1
-let g:tagbar_show_data_type       = 1
-let g:tagbar_show_tag_linenumbers = 0
-let g:tagbar_expand               = 1
-let g:tagbar_auto_show_tag        = 1
+Plugin 'ryanoasis/vim-devicons'
 
-" powerline
-set laststatus=2
-set showtabline=2
+set encoding=utf8
+set guifont="Monospace Regular 12"
 
-" vim-colorschemes
-colorscheme gruvbox
-"colorscheme archery
-"colorscheme iceberg 
-"colorscheme nord
-"colorscheme scheakur
-"colorscheme molokai
-"colorscheme jellybeans
-syntax enable
-set background=dark
+let g:webdevicons_enable_nerdtree								= 1
+let g:webdevicons_conceal_nerdtree_brackets						= 1
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile  = 1
 
+" ---------------------------------------------------------------------------- "
+" -------------------------------- TAGBAR ------------------------------------ "
+" ---------------------------------------------------------------------------- "
+
+Plugin 'majutsushi/tagbar'
+
+let g:tagbar_position				= 'botright vertical'
+let g:tagbar_width					= '40'
+let g:tagbar_autoclose				= 0
+let g:tagbar_autofocus				= 1
+let g:tagbar_sort					= 0 "sort by position in the source file
+let g:tagbar_compact				= 2
+let g:tagbar_indent					= 0
+let g:tagbar_show_data_type			= 1
+let g:tagbar_show_tag_linenumbers	= 0
+let g:tagbar_show_prefix			= 1
+let g:tagbar_show_tag_count			= 1
+let g:tagbar_expand               	= 0
+let g:tagbar_auto_show_tag        	= 1
+let g:tagbar_previewwin_pos			= 'splitbelow'
+let g:tagbar_wrap					= 0 "wrap long lines in the tagbar window
+
+" ---------------------------------------------------------------------------- "
+" --------------------------------- GIT -------------------------------------- "
+" ---------------------------------------------------------------------------- "
+Plugin 'tpope/vim-fugitive'
+
+" ---------------------------------------------------------------------------- "
+" ------------------------------ COMMENTS ------------------------------------ "
+" ---------------------------------------------------------------------------- "
+Plugin 'preservim/nerdcommenter'
+
+let g:NERDSpaceDelims	= 1
+
+" ---------------------------------------------------------------------------- "
+" ------------------------------- PYTHON ------------------------------------- "
+" ---------------------------------------------------------------------------- "
+Plugin 'davidhalter/jedi-vim'
+
+let g:jedi#auto_vim_configuration 	= 1
+let g:jedi#popup_select_first		= 1
+let g:jedi#use_splits_not_buffers	= 'right'
+
+"Plugin 'python-mode/python-mode'
+
+" ---------------------------------------------------------------------------- "
+" --------------------------------- ALE -------------------------------------- "
+" ---------------------------------------------------------------------------- "
+
+"Plugin 'prabirshrestha/vim-lsp'
+Plugin 'dense-analysis/ale'
+
+	" GENERAL
+	" --------
+	"Plugin 'tpope/vim-surround'
+
+	"*****************************************"
+	"*************** LANGUAGES ***************"
+	"*****************************************"
+
+	" MARKDOWN
+	"Plugin 'godlygeek/tabular' " TODO
+"	Plugin 'plasticboy/vim-markdown' " TODO
+"	Plugin 'jamshedvesuna/vim-markdown-preview' " TODO
+
+call vundle#end()
+filetype plugin indent on
+
+autocmd Filetype c,cpp :set cindent
+" }}}
+
+" ---------------------------------------------------------------------------- "
+" 3. Abbreviations {{{
+" ---------------------------------------------------------------------------- "
+
+" Open help in a vertical window
+cnoreabbrev help vert help
+" }}}
+
+" ---------------------------------------------------------------------------- "
+" 3. Plugins config {{{
+" ---------------------------------------------------------------------------- "
 " Tabular
 ":let g:tabular_loaded = 1 
 " }}}
 
 " ---------------------------------------------------------------------------- "
-" Mappings {{{
+" 4. Mappings {{{
 " --------------------------------------------------------------------------- "
 
-let mapleader = ' '
+" Set the coma as the leader key
+let mapleader = ','
 
-nnoremap <F12>         : source ~/.vimrc<CR> : noh<CR>
+" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRK+h, or CTRL+l
+nnoremap <c-j>          <c-w>j
+nnoremap <c-k>          <c-w>k
+nnoremap <c-h>          <c-w>h
+nnoremap <c-l>          <c-w>l
+
+" Resize split windows using arrow keys by pressing
+" CTRL+UP, CTRL+DOWN, CTRL+LEFT, or CTRL+RIGHT
+nnoremap <c-up>         <c-w>+
+nnoremap <c-down>       <c-w>-
+nnoremap <c-left>       <c-w><
+nnoremap <c-right>      <c-w>>
+
+" NERDTree specific mappings
+" Map the F2 key to toggle NERDTree open and close
+nmap <F2>              :NERDTreeToggle<CR>
+
+" Reload the vim configuration
+nnoremap <F12>         :source ~/.vimrc<CR> :noh<CR>
+
 nnoremap <F3>          : noh<CR>
-nmap <F2>              : NERDTreeToggle<CR>
 nnoremap <silent> <F8> : TagbarToggle<CR>
 " }}}
 
@@ -236,7 +352,10 @@ augroup filetype_vim
 	autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
-augroup filetype_c
-	autocmd!
-	autocmd FileType c setlocal foldmethod=syntax
+" If the current file type is HTML, set indentation to 2 spaces
+autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+
+"augroup filetype_c
+"	autocmd!
+"	autocmd FileType c setlocal foldmethod=syntax
 " }}}
