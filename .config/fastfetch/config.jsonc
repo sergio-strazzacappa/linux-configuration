@@ -1,0 +1,62 @@
+{
+	"$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+	"logo": {
+		"source": "debian",
+		"padding": {
+			"top": 1,
+		},
+	},
+	"display":{
+		"separator": " -> ",
+		"color": {
+			"title": "#FFFFFF",
+			"keys": "#B941BF",
+			"separator": "#B941BF",
+			"output": "#FFFFFF",
+		},
+		"key": {
+			"type": "both-1",
+			"paddingLeft": 0,
+			"width": 25,
+		},
+	},
+	"modules": [
+		"title",
+
+		{
+			"type": "separator",
+			"string": "-",
+		},
+
+		"os",
+		"kernel",
+		"packages",
+		"shell",
+		"uptime",
+
+		"break",
+
+		"display",
+		"de",
+		"wm",
+		"lm",
+		//"theme",
+		//"wmtheme",
+		//"font",
+		//"icons",
+		"terminal",
+
+		"break",
+
+		"cpu",
+		"gpu",
+		"memory",
+		"swap",
+		"disk",
+
+		//"terminal",
+		//"terminalfont",
+		//"terminalsize",
+		//"terminaltheme",
+	]
+}

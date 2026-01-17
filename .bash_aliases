@@ -3,7 +3,7 @@ alias rmdir='rmdir -v'
 alias mkdir='mkdir -v'
 alias chmod='chmod -v'
 alias cp='cp -v'
-alias bcat='batcat'
+alias bat='batcat'
 alias free='free -h'
 alias lsblk_use='lsblk -o NAME,FSUSED,FSAVAIL,FSSIZE,SIZE,FSUSE%,MOUNTPOINT'
 
