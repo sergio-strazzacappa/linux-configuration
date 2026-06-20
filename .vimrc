@@ -1,9 +1,10 @@
 " Index: {{{
 " 	1. General settings
 "	2. Plugins
-"	3. Abbreviations
-"	4. Mappings
-"	5. Vimscript
+"	3. Post-plugins setting
+"	4. Abbreviations
+"	5. Mappings
+"	6. Vimscript
 "	}}}
 
 " ---------------------------------------------------------------------------- "
@@ -16,12 +17,6 @@ set nocompatible
 " Enable type file detection. Vim will be able to try to detect the type file
 " in use. Required for Vundle to be off
 filetype off
-
-" Enable plugins and load plugin for the detected file type
-filetype plugin on
-
-" Load and indent file for the detected file type
-filetype indent on
 
 " Turn syntax highlighting on
 syntax on
@@ -37,6 +32,9 @@ set cursorline
 
 " Highlight cursor line underneath the cursor vertically
 set cursorcolumn
+
+" Highlight line width
+set colorcolumn=80
 
 " Set shift width to 4 spaces
 set shiftwidth=4
@@ -125,18 +123,6 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'flazz/vim-colorschemes'
 
-set background=dark
-
-colorscheme gruvbox
-"colorscheme archery
-"colorscheme iceberg
-"colorscheme nord
-"colorscheme scheakur
-"colorscheme molokai
-"colorscheme jellybeans
-"colorscheme minimalist
-"colorscheme codedark
-
 " ---------------------------------------------------------------------------- "
 " ------------------------------ STATUS LINE --------------------------------- "
 " ---------------------------------------------------------------------------- "
@@ -184,11 +170,11 @@ let NERDTreeMinimalMenu     = 0
 
 Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-let g:NERDTreeDisableFileExtensionHighlight                     = 1
-let g:NERDTreeDisableExactMatchHighlight                        = 1
-let g:NERDTreeDisablePatternMatchHighlight                      = 1
-let g:NERDTreeHighlightFolders                                  = 1
-let g:NERDTreeHighlightFoldersFullName                          = 1
+let g:NERDTreeDisableFileExtensionHighlight	= 1
+let g:NERDTreeDisableExactMatchHighlight	= 1
+let g:NERDTreeDisablePatternMatchHighlight	= 1
+let g:NERDTreeHighlightFolders				= 1
+let g:NERDTreeHighlightFoldersFullName 		= 1
 
 let s:brown       = "905532"
 let s:aqua        = "3AFFDB"
@@ -209,10 +195,10 @@ let s:white       = "FFFFFF"
 let s:rspec_red   = "FE405F"
 let s:git_orange  = "F54D27"
 
-let g:NERDTreeExtensionHighlightColor = {}
-let g:NERDTreeExtensionHighlightColor['c'] = 's:blue'
-let g:NERDTreeExactMatchHighlightColor = {}
-let g:NERDTreeExactMatchHighlightColor['.gitignore'] = 's:git_orange'
+let g:NERDTreeExtensionHighlightColor 					= {}
+let g:NERDTreeExtensionHighlightColor['c'] 				= 's:blue'
+let g:NERDTreeExactMatchHighlightColor 					= {}
+let g:NERDTreeExactMatchHighlightColor['.gitignore'] 	= 's:git_orange'
 
 Plugin 'ryanoasis/vim-devicons'
 
@@ -231,12 +217,12 @@ let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile  = 1
 Plugin 'majutsushi/tagbar'
 
 let g:tagbar_position				= 'botright vertical'
-let g:tagbar_width					= '40'
+let g:tagbar_width					= '50'
 let g:tagbar_autoclose				= 0
 let g:tagbar_autofocus				= 1
 let g:tagbar_sort					= 0 "sort by position in the source file
 let g:tagbar_compact				= 2
-let g:tagbar_indent					= 0
+let g:tagbar_indent					= 4
 let g:tagbar_show_data_type			= 1
 let g:tagbar_show_tag_linenumbers	= 0
 let g:tagbar_show_prefix			= 1
@@ -261,11 +247,11 @@ let g:NERDSpaceDelims	= 1
 " ---------------------------------------------------------------------------- "
 " ------------------------------- PYTHON ------------------------------------- "
 " ---------------------------------------------------------------------------- "
-Plugin 'davidhalter/jedi-vim'
+"Plugin 'davidhalter/jedi-vim'
 
-let g:jedi#auto_vim_configuration 	= 1
-let g:jedi#popup_select_first		= 1
-let g:jedi#use_splits_not_buffers	= 'right'
+"let g:jedi#auto_vim_configuration 	= 1
+"let g:jedi#popup_select_first		= 1
+"let g:jedi#use_splits_not_buffers	= 'right'
 
 "Plugin 'python-mode/python-mode'
 
@@ -273,8 +259,28 @@ let g:jedi#use_splits_not_buffers	= 'right'
 " --------------------------------- ALE -------------------------------------- "
 " ---------------------------------------------------------------------------- "
 
-"Plugin 'prabirshrestha/vim-lsp'
 Plugin 'dense-analysis/ale'
+
+set omnifunc=ale#completion#OmniFunc
+
+let g:ale_lint_on_save			= 1
+let g:ale_lint_on_enter			= 1
+let g:ale_fix_on_save			= 1
+let g:ale_completion_enabled	= 1
+let g:ale_floating_preview		= 1
+let g:ale_sign_error 			= '❌'
+let g:ale_sign_warning 			= '⚠️'
+let g:ale_sign_info				= 'ℹ️'
+
+let g:ale_linters = {
+\	'c': ['gcc', 'clangd'],
+\	'haskell': []
+\}
+
+let g:ale_fixers = {
+\	'c': ['clang-format'],
+\	'haskell': []
+\}
 
 	" GENERAL
 	" --------
@@ -290,28 +296,50 @@ Plugin 'dense-analysis/ale'
 "	Plugin 'jamshedvesuna/vim-markdown-preview' " TODO
 
 call vundle#end()
-filetype plugin indent on
 
-autocmd Filetype c,cpp :set cindent
+" }}}
+
+" ------------------------------------------------------------------------------
+" 3. Post-plugins settings {{{
+" ------------------------------------------------------------------------------
+
+filetype plugin indent on
+set background=dark
+
+"colorscheme Atelier_DuneDark
+"colorscheme CandyPaper
+colorscheme gruvbox
+"colorscheme archery
+"colorscheme iceberg
+"colorscheme nord
+"colorscheme scheakur
+"colorscheme molokai
+"colorscheme jellybeans
+"colorscheme minimalist
+"colorscheme codedark
+
+highlight ColorColumn ctermbg=88
+
 " }}}
 
 " ---------------------------------------------------------------------------- "
-" 3. Abbreviations {{{
+" 4. Abbreviations {{{
 " ---------------------------------------------------------------------------- "
 
 " Open help in a vertical window
 cnoreabbrev help vert help
+
 " }}}
 
 " ---------------------------------------------------------------------------- "
-" 3. Plugins config {{{
+" 4. Plugins config {{{
 " ---------------------------------------------------------------------------- "
 " Tabular
-":let g:tabular_loaded = 1 
+":let g:tabular_loaded = 1
 " }}}
 
 " ---------------------------------------------------------------------------- "
-" 4. Mappings {{{
+" 5. Mappings {{{
 " --------------------------------------------------------------------------- "
 
 " Set the coma as the leader key
@@ -337,12 +365,20 @@ nmap <F2>              :NERDTreeToggle<CR>
 " Reload the vim configuration
 nnoremap <F12>         :source ~/.vimrc<CR> :noh<CR>
 
-nnoremap <F3>          : noh<CR>
-nnoremap <silent> <F8> : TagbarToggle<CR>
+nnoremap <F3>          :noh<CR>
+nnoremap <silent> <F8> :TagbarToggle<CR>
+
+nmap <silent> gd 	:ALEGoToDefinition<CR>
+nmap <silent> gt 	:ALEGoToTypeDefinition<CR>
+nmap <silent> gi 	:ALEGoToImplementation<CR>
+nmap <silent> gr 	:ALEFindReferences<CR>
+nmap <silent> D 	:ALEHover<CR>
+nmap <silent> E 	:ALEDetail<CR>
+
 " }}}
 
 " --------------------------------------------------------------------------- "
-" 5. Vimscript {{{
+" 6. Vimscript {{{
 " ---------------------------------------------------------------------------- "
 
 " This will enable code folding
@@ -352,10 +388,11 @@ augroup filetype_vim
 	autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
-" If the current file type is HTML, set indentation to 2 spaces
-autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+augroup indentation
+	" If the current file type is HTML, set indentation to 2 spaces
+	autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+	" If the current file type is c, cpp or h, set indentation to 4 spaces
+	autocmd Filetype c,cpp,h setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab cindent
+augroup END
 
-"augroup filetype_c
-"	autocmd!
-"	autocmd FileType c setlocal foldmethod=syntax
 " }}}
